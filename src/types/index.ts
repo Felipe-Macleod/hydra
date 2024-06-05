@@ -94,6 +94,7 @@ export interface Game extends Omit<CatalogueEntry, "cover"> {
   title: string;
   iconUrl: string;
   status: Aria2Status | null;
+  waiting: boolean | null;
   folderName: string;
   downloadPath: string | null;
   repacks: GameRepack[];

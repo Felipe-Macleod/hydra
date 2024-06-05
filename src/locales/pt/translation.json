@@ -8,6 +8,7 @@
   },
   "sidebar": {
     "catalogue": "Catálogo",
+    "watchlist": "Aguardando",
     "downloads": "Downloads",
     "settings": "Ajustes",
     "my_library": "Minha biblioteca",
@@ -25,6 +26,7 @@
   "header": {
     "search": "Buscar jogos",
     "catalogue": "Catálogo",
+    "watchlist": "Aguardando",
     "downloads": "Downloads",
     "search_results": "Resultados da busca",
     "settings": "Ajustes",

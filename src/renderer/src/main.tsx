@@ -22,6 +22,7 @@ import {
   SearchResults,
   Settings,
   Catalogue,
+  Watchlist
 } from "@renderer/pages";
 
 import { store } from "./store";
@@ -54,6 +55,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
             <Route path="/game/:shop/:objectID" Component={GameDetails} />
             <Route path="/search" Component={SearchResults} />
             <Route path="/settings" Component={Settings} />
+            <Route path="/watchlist" Component={Watchlist} />
           </Route>
         </Routes>
       </HashRouter>

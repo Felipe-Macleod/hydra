@@ -23,6 +23,7 @@ export interface HeaderProps {
 const pathTitle: Record<string, string> = {
   "/": "home",
   "/catalogue": "catalogue",
+  "/watchlist": "watchlist",
   "/downloads": "downloads",
   "/settings": "settings",
 };

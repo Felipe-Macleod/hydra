@@ -8,6 +8,7 @@
   },
   "sidebar": {
     "catalogue": "Catalogue",
+    "watchlist": "Waiting",
     "downloads": "Downloads",
     "settings": "Settings",
     "my_library": "My library",
@@ -26,6 +27,7 @@
     "search": "Search games",
     "home": "Home",
     "catalogue": "Catalogue",
+    "watchlist": "Waiting",
     "downloads": "Downloads",
     "search_results": "Search results",
     "settings": "Settings",
@@ -113,6 +115,15 @@
     "message": "If you don't know where to ask for this, then you shouldn't have this.",
     "activate": "Activate",
     "loading": "Loading…"
+  },
+  "watchlist": {
+    "filter": "Filter awaited games",
+    "download": "Download",
+    "remove": "Remove",
+    "remove_from_list": "Remove",
+    "no_downloads": "No downloads available",
+    "delete_modal_title": "Are you sure?",
+    "delete_modal_description": "This will remove all the installation files from your computer"
   },
   "downloads": {
     "resume": "Resume",

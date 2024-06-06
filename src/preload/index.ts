@@ -54,6 +54,8 @@ contextBridge.exposeInMainWorld("electron", {
 
   /* Watchlist */
   addGameToWatchlist: (objectID: string) => ipcRenderer.invoke("addGameToWatchlist", objectID),
+  removeGameFromWatchlist: (objectID: string) => ipcRenderer.invoke("removeGameFromWatchlist", objectID),
+  getWatchlist: () => ipcRenderer.invoke("getWatchlist"),
 
   /* Library */
   addGameToLibrary: (

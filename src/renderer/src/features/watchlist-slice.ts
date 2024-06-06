@@ -1,10 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 
-import type { Game } from "@types";
-
 export interface WatchlistState {
-  value: Game[];
+  value: string[];
 }
 
 const initialState: WatchlistState = {

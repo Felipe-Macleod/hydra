@@ -1,6 +1,6 @@
 import { useCallback } from "react";
 import { useAppDispatch, useAppSelector } from "./redux";
-import { setLibrary } from "@renderer/features";
+import { setWatchlist } from "@renderer/features";
 
 export function useWatchlist() {
   const dispatch = useAppDispatch();
@@ -8,8 +8,8 @@ export function useWatchlist() {
 
   const updateWatchlist = useCallback(async () => {
     return window.electron
-      .getLibrary()
-      .then((updatedWatchlist) => dispatch(setLibrary(updatedWatchlist)));
+      .getWatchlist()
+      .then((updatedWatchlist) => dispatch(setWatchlist(updatedWatchlist.map( ({ objectID }) => objectID ))));
   }, [dispatch]);
 
   return { watchlist, updateWatchlist };

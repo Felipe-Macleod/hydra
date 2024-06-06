@@ -20,6 +20,7 @@ import {
   toggleDraggingDisabled,
   closeToast,
 } from "@renderer/features";
+import { useWatchlist } from "./hooks/use-watchlist";
 
 document.body.classList.add(themeClass);
 
@@ -30,6 +31,7 @@ export interface AppProps {
 export function App() {
   const contentRef = useRef<HTMLDivElement>(null);
   const { updateLibrary } = useLibrary();
+  const { updateWatchlist } = useWatchlist();
 
   const { clearDownload, setLastPacket } = useDownload();
 
@@ -45,12 +47,12 @@ export function App() {
   const toast = useAppSelector((state) => state.toast);
 
   useEffect(() => {
-    Promise.all([window.electron.getUserPreferences(), updateLibrary()]).then(
+    Promise.all([window.electron.getUserPreferences(), updateLibrary(), updateWatchlist() ]).then(
       ([preferences]) => {
         dispatch(setUserPreferences(preferences));
       }
     );
-  }, [navigate, location.pathname, dispatch, updateLibrary]);
+  }, [navigate, location.pathname, dispatch, updateLibrary, updateWatchlist ]);
 
   useEffect(() => {
     const unsubscribe = window.electron.onDownloadProgress(

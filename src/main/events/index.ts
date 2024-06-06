@@ -30,6 +30,9 @@ import "./user-preferences/auto-launch";
 import "./autoupdater/check-for-updates";
 import "./autoupdater/restart-and-install-update";
 import "./user-preferences/authenticate-real-debrid";
+import "./watchlist/add-game-to-watchlist";
+import "./watchlist/get-watchlist";
+import "./watchlist/remove-game-from-watchlist";
 
 ipcMain.handle("ping", () => "pong");
 ipcMain.handle("getVersion", () => app.getVersion());

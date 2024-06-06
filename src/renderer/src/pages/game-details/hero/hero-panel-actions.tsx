@@ -10,6 +10,8 @@ import { useTranslation } from "react-i18next";
 import * as styles from "./hero-panel-actions.css";
 import { gameDetailsContext } from "../game-details.context";
 import { Downloader } from "@shared";
+import { useWatchlist } from "@renderer/hooks/use-watchlist";
+import { logger } from "@renderer/logger";
 
 export function HeroPanelActions() {
   const [toggleLibraryGameDisabled, setToggleLibraryGameDisabled] =
@@ -39,6 +41,8 @@ export function HeroPanelActions() {
   );
 
   const { updateLibrary } = useLibrary();
+
+  const { watchlist, updateWatchlist } = useWatchlist();
 
   const { t } = useTranslation("game_details");
 
@@ -125,6 +129,14 @@ export function HeroPanelActions() {
     if (game) window.electron.closeGame(game.id);
   };
 
+  const addGameToWatchlist = () => {
+    if (objectID) window.electron.addGameToWatchlist(objectID).then( _ => updateWatchlist() );
+  }
+
+  const removeGameFromWatchlist = () => {
+    if (objectID) window.electron.removeGameFromWatchlist(objectID).then( _ => updateWatchlist() );
+  }
+
   const deleting = game ? isGameDeleting(game?.id) : false;
 
   const toggleGameOnLibraryButton = (
@@ -210,7 +222,7 @@ export function HeroPanelActions() {
   }
 
   if (!game) {
-    repacks.length ? (
+    return repacks.length ? (
       <>
         {toggleGameOnLibraryButton}
         <Button
@@ -224,13 +236,25 @@ export function HeroPanelActions() {
     ) : (
       <>
         {toggleGameOnLibraryButton}
-        <Button
-          onClick={openRepacksModal}
-          theme="outline"
-          className={styles.heroPanelAction}
-        >
-          {t("watch")}
-        </Button>
+        {
+          watchlist.includes(String(objectID)) ? (
+            <Button
+              onClick={removeGameFromWatchlist}
+              theme="outline"
+              className={styles.heroPanelAction}
+            >
+              {t("unwatch")}
+            </Button>
+          ) : (
+            <Button
+              onClick={addGameToWatchlist}
+              theme="outline"
+              className={styles.heroPanelAction}
+            >
+              {t("watch")}
+            </Button>
+          )
+        }
       </>
     )
   }

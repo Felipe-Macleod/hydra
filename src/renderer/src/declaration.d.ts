@@ -51,6 +51,11 @@ declare global {
     ) => Promise<{ results: CatalogueEntry[]; cursor: number }>;
     searchGameRepacks: (query: string) => Promise<GameRepack[]>;
 
+    /* Watchlist */
+    addGameToWatchlist: (objectId: string) => Promise<void>;
+    removeGameFromWatchlist: (objectId: string) => Promise<void>;
+    getWatchlist: () => Promise<CatalogueEntry[]>;
+
     /* Library */
     addGameToLibrary: (
       objectID: string,

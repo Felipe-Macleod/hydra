@@ -6,34 +6,40 @@ import {
   buildGameDetailsPath,
   steamUrlBuilder,
 } from "@renderer/helpers";
-import { useDownload, useLibrary } from "@renderer/hooks";
-import type { Game } from "@types";
+import type { CatalogueEntry } from "@types";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import * as styles from "./watchlist.css";
+import { useWatchlist } from "@renderer/hooks/use-watchlist";
 
 export function Watchlist() {
-  const { library } = useLibrary();
+  const { watchlist, updateWatchlist } = useWatchlist();
 
   const { t } = useTranslation("watchlist");
 
   const navigate = useNavigate();
-
-  const [filteredLibrary, setFilteredLibrary] = useState<Game[]>([]);
-
-  const {
-    removeGameFromLibrary
-  } = useDownload();
-
-  const libraryWithAwaitedGamesOnly = useMemo(() => {
-    return library.filter((_) => true);
-  }, [library]);
+  
+  const [isLoading, setIsLoading] = useState(false);
+  const [filteredLibrary, setFilteredLibrary] = useState<CatalogueEntry[]>([]);
+  const [libraryWithAwaitedGamesOnly, setWatchedGames ] = useState<CatalogueEntry[]>([]);
+  
+  useEffect(() => {
+    setIsLoading(true);
+    window.electron.getWatchlist().then( watchlistGames => {
+      setIsLoading(false);
+      return setWatchedGames(watchlistGames);
+    });
+  }, [watchlist])
 
   useEffect(() => {
     setFilteredLibrary(libraryWithAwaitedGamesOnly);
   }, [libraryWithAwaitedGamesOnly]);
 
-  const getGameActions = (game: Game) => {
+  const removeFromWatchlist = (objectId: string) => {
+    window.electron.removeGameFromWatchlist(objectId).then( _ => updateWatchlist() );
+  }
+
+  const getGameActions = (game: CatalogueEntry) => {
     return (
       <>
         <Button
@@ -45,7 +51,7 @@ export function Watchlist() {
         </Button>
 
         <Button
-          onClick={() => removeGameFromLibrary(game.id)}
+          onClick={() => removeFromWatchlist(game.objectID)}
           theme="outline"
         >
           {t("remove_from_list")}
@@ -69,12 +75,10 @@ export function Watchlist() {
       <TextField placeholder={t("filter")} onChange={handleFilter} />
 
       <ul className={styles.downloads}>
-        {filteredLibrary.map((game) => (
+        {!isLoading && filteredLibrary.map((game) => (
           <li
-            key={game.id}
-            className={styles.download({
-              cancelled: game.status === "removed",
-            })}
+            key={game.objectID}
+            className={styles.download()}
           >
             <div className={styles.downloadCover}>
               <div className={styles.downloadCoverBackdrop}>

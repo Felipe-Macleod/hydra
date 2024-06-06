@@ -52,6 +52,9 @@ contextBridge.exposeInMainWorld("electron", {
   authenticateRealDebrid: (apiToken: string) =>
     ipcRenderer.invoke("authenticateRealDebrid", apiToken),
 
+  /* Watchlist */
+  addGameToWatchlist: (objectID: string) => ipcRenderer.invoke("addGameToWatchlist", objectID),
+
   /* Library */
   addGameToLibrary: (
     objectID: string,

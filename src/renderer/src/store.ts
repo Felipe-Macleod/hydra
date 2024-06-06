@@ -6,6 +6,7 @@ import {
   searchSlice,
   userPreferencesSlice,
   toastSlice,
+  watchlistSlice,
 } from "@renderer/features";
 
 export const store = configureStore({
@@ -14,6 +15,7 @@ export const store = configureStore({
     window: windowSlice.reducer,
     library: librarySlice.reducer,
     userPreferences: userPreferencesSlice.reducer,
+    watchlist: watchlistSlice.reducer,
     download: downloadSlice.reducer,
     toast: toastSlice.reducer,
   },

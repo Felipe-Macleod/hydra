@@ -10,7 +10,6 @@ import { useDownload, useLibrary } from "@renderer/hooks";
 import type { Game } from "@types";
 
 import { useEffect, useMemo, useState } from "react";
-import { BinaryNotFoundModal } from "../shared-modals/binary-not-found-modal";
 import * as styles from "./watchlist.css";
 
 export function Watchlist() {
@@ -21,7 +20,6 @@ export function Watchlist() {
   const navigate = useNavigate();
 
   const [filteredLibrary, setFilteredLibrary] = useState<Game[]>([]);
-  const [showBinaryNotFoundModal, setShowBinaryNotFoundModal] = useState(false);
 
   const {
     removeGameFromLibrary
@@ -41,7 +39,7 @@ export function Watchlist() {
         <Button
           onClick={() => navigate(buildGameDetailsPath(game))}
           theme="outline"
-          disabled
+          disabled={!game.repacks.length}
         >
           {t("download")}
         </Button>
@@ -68,72 +66,63 @@ export function Watchlist() {
 
   return (
     <section className={styles.downloadsContainer}>
-      <BinaryNotFoundModal
-        visible={showBinaryNotFoundModal}
-        onClose={() => setShowBinaryNotFoundModal(false)}
-      />
-
       <TextField placeholder={t("filter")} onChange={handleFilter} />
 
       <ul className={styles.downloads}>
-        {filteredLibrary.map((game) => {
-          return (
-            <li
-              key={game.id}
-              className={styles.download({
-                cancelled: game.status === "removed",
-              })}
-            >
-              <div className={styles.downloadCover}>
-                <div className={styles.downloadCoverBackdrop}>
-                  <img
-                    src={steamUrlBuilder.library(game.objectID)}
-                    className={styles.downloadCoverImage}
-                    alt={game.title}
-                  />
+        {filteredLibrary.map((game) => (
+          <li
+            key={game.id}
+            className={styles.download({
+              cancelled: game.status === "removed",
+            })}
+          >
+            <div className={styles.downloadCover}>
+              <div className={styles.downloadCoverBackdrop}>
+                <img
+                  src={steamUrlBuilder.library(game.objectID)}
+                  className={styles.downloadCoverImage}
+                  alt={game.title}
+                />                
+              </div>
+            </div>
+            <div className={styles.downloadRightContent}>
+              <div className={styles.downloadDetails}>
+                <div className={styles.downloadTitleWrapper}>
+                  <button
+                    type="button"
+                    className={styles.downloadTitle}
+                    onClick={() => navigate(buildGameDetailsPath(game))}
+                  >
+                    {game.title}
+                  </button>
+                </div>
 
-                  
+                <div className={styles.downloadCoverContent}>
+                  { game.repacks.length ? (
+                      <ul className={styles.downloadOptions}>
+                        {
+                          Array.from(
+                            new Set(game.repacks.map(({ repacker }) => repacker))
+                          ).map((repacker) => (
+                            <li key={repacker} className={styles.downloadOption}>
+                              <span>{repacker}</span>
+                            </li>
+                          ))
+                        }
+                      </ul>
+                    ) : (
+                      <p className={styles.noDownloadsLabel}>{t("no_downloads")}</p>
+                    )
+                  }
                 </div>
               </div>
-              <div className={styles.downloadRightContent}>
-                <div className={styles.downloadDetails}>
-                  <div className={styles.downloadTitleWrapper}>
-                    <button
-                      type="button"
-                      className={styles.downloadTitle}
-                      onClick={() => navigate(buildGameDetailsPath(game))}
-                    >
-                      {game.title}
-                    </button>
-                  </div>
 
-                  <div className={styles.downloadCoverContent}>
-                    { game.repacks.length ? (
-                        <ul className={styles.downloadOptions}>
-                          {
-                            Array.from(
-                              new Set(game.repacks.map(({ repacker }) => repacker))
-                            ).map((repacker) => (
-                              <li key={repacker} className={styles.downloadOption}>
-                                <span>{repacker}</span>
-                              </li>
-                            ))
-                          }
-                        </ul>
-                      ) : (
-                        <p className={styles.noDownloadsLabel}>{t("no_downloads")}</p>
-                      )
-                    }
-                  </div>
-                </div>
-
-                <div className={styles.downloadActions}>
-                  {getGameActions(game)}
-                </div>
+              <div className={styles.listItemActions}>
+                {getGameActions(game)}
               </div>
-            </li>
-          );
-        })}
+            </div>
+          </li>
+        ))}
       </ul>
     </section>
   );

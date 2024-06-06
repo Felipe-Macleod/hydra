@@ -26,16 +26,6 @@ export const repackTitle = style({
   overflow: "hidden",
 });
 
-export const downloaderName = style({
-  color: "#c0c1c7",
-  fontSize: "10px",
-  padding: `${SPACING_UNIT / 2}px ${SPACING_UNIT}px`,
-  border: "solid 1px #c0c1c7",
-  borderRadius: "4px",
-  display: "flex",
-  alignItems: "center",
-});
-
 export const downloads = style({
   width: "100%",
   gap: `${SPACING_UNIT * 2}px`,
@@ -57,11 +47,10 @@ export const downloadCover = style({
 
 export const downloadCoverContent = style({
   width: "100%",
-  height: "100%",
-  padding: `${SPACING_UNIT}px`,
+  paddingTop: `${SPACING_UNIT}px`,
+  flexGrow: 1,
   display: "flex",
-  alignItems: "flex-end",
-  justifyContent: "flex-end",
+  alignItems: "flex-start",
 });
 
 export const downloadCoverBackdrop = style({
@@ -110,7 +99,7 @@ export const downloadDetails = style({
   display: "flex",
   flexDirection: "column",
   flex: "1",
-  justifyContent: "center",
+  height: "100%",
   gap: `${SPACING_UNIT / 2}px`,
   fontSize: "14px",
 });
@@ -123,7 +112,7 @@ export const downloadRightContent = style({
   gap: `${SPACING_UNIT}px`,
 });
 
-export const downloadActions = style({
+export const listItemActions = style({
   height: "fit-content",
   display: "flex",
   alignItems: "stretch",

@@ -209,8 +209,8 @@ export function HeroPanelActions() {
     );
   }
 
-  if (repacks.length && !game) {
-    return (
+  if (!game) {
+    repacks.length ? (
       <>
         {toggleGameOnLibraryButton}
         <Button
@@ -221,7 +221,18 @@ export function HeroPanelActions() {
           {t("open_download_options")}
         </Button>
       </>
-    );
+    ) : (
+      <>
+        {toggleGameOnLibraryButton}
+        <Button
+          onClick={openRepacksModal}
+          theme="outline"
+          className={styles.heroPanelAction}
+        >
+          {t("watch")}
+        </Button>
+      </>
+    )
   }
 
   return (

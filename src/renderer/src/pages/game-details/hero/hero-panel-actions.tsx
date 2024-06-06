@@ -11,7 +11,6 @@ import * as styles from "./hero-panel-actions.css";
 import { gameDetailsContext } from "../game-details.context";
 import { Downloader } from "@shared";
 import { useWatchlist } from "@renderer/hooks/use-watchlist";
-import { logger } from "@renderer/logger";
 
 export function HeroPanelActions() {
   const [toggleLibraryGameDisabled, setToggleLibraryGameDisabled] =

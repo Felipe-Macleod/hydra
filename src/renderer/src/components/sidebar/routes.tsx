@@ -1,5 +1,6 @@
 import { AppsIcon, ClockIcon, GearIcon, HomeIcon } from "@primer/octicons-react";
 import { DownloadIcon } from "./download-icon";
+import { WatchlistDecoration } from "./watchlist-decoration";
 
 export const routes = [
   {
@@ -16,6 +17,7 @@ export const routes = [
     path: "/watchlist",
     nameKey: "watchlist",
     render: () => <ClockIcon />,
+    decoration: (active: boolean = false) => <WatchlistDecoration active={active} />
   },
   {
     path: "/downloads",

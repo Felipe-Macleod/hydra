@@ -137,7 +137,7 @@ export function Sidebar() {
 
         <section className={styles.section}>
           <ul className={styles.menu}>
-            {routes.map(({ nameKey, path, render }) => (
+            {routes.map(({ nameKey, path, render, decoration }) => (
               <li
                 key={nameKey}
                 className={styles.menuItem({
@@ -151,6 +151,7 @@ export function Sidebar() {
                 >
                   {render(isDownloading)}
                   <span>{t(nameKey)}</span>
+                  {decoration && decoration()}
                 </button>
               </li>
             ))}

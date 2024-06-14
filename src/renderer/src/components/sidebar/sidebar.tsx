@@ -13,6 +13,7 @@ import * as styles from "./sidebar.css";
 import { buildGameDetailsPath } from "@renderer/helpers";
 
 import SteamLogo from "@renderer/assets/steam-logo.svg?react";
+import { useWatchlist } from "@renderer/hooks/use-watchlist";
 
 const SIDEBAR_MIN_WIDTH = 200;
 const SIDEBAR_INITIAL_WIDTH = 250;
@@ -23,9 +24,12 @@ const initialSidebarWidth = window.localStorage.getItem("sidebarWidth");
 export function Sidebar() {
   const { t } = useTranslation("sidebar");
   const { library, updateLibrary } = useLibrary();
+  const { watchlist, hasRepacks } = useWatchlist();
   const navigate = useNavigate();
 
   const [filteredLibrary, setFilteredLibrary] = useState<Game[]>([]);
+
+  const [ watchlistNotification, setWatchlistNotification ] = useState(false);
 
   const [isResizing, setIsResizing] = useState(false);
   const [sidebarWidth, setSidebarWidth] = useState(
@@ -71,6 +75,10 @@ export function Sidebar() {
   useEffect(() => {
     setFilteredLibrary(library);
   }, [library]);
+
+  useEffect(() => {
+    hasRepacks().then(val => setWatchlistNotification(val));
+  }, [watchlist]);
 
   useEffect(() => {
     window.onmousemove = (event: MouseEvent) => {
@@ -151,7 +159,7 @@ export function Sidebar() {
                 >
                   {render(isDownloading)}
                   <span>{t(nameKey)}</span>
-                  {decoration && decoration()}
+                  {decoration && decoration(watchlistNotification)}
                 </button>
               </li>
             ))}
